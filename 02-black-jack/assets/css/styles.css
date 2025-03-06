@@ -16,7 +16,8 @@ html,body {
 	position: relative;
 	max-width: 150px;
 	left: 150px;
-	margin-left: -35px;
+	margin-left: -75px;
+	padding-bottom: 1rem;
 }
 
 #player-cards, #pc-cards{
