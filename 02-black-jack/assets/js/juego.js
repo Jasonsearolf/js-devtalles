@@ -58,6 +58,36 @@ const cardValue = (carta) => {
 /* const valor = cardValue(drawCard()); */
 /* console.log({valor}); */
 
+const machineTurn = (minPts) => {
+	do {
+		const card = drawCard();
+		machinePts  = machinePts + cardValue(card);
+		console.log(machinePts);
+		htmlPts[1].innerText = machinePts;
+		
+		const newCard = document.createElement('img')
+		newCard.src = `./assets/cartas/${card}.png`;
+		newCard.classList.add('carta');
+		machineCards.append(newCard);
+		if (minPts > 21){
+			break;
+		}
+
+	} while ((machinePts < minPts) && (machinePts <= 21));
+	
+	setTimeout(() => {
+		if (minPts > 21){
+			alert('Machine won!');
+		}else if ( machinePts > minPts && machinePts < 21){
+			alert('Machine won!')
+		}else if (minPts === machinePts){
+			alert('Tie!!');
+		}else {
+			alert ('You won!');
+		}
+	}, 500);
+}
+
 btnDraw.addEventListener('click', () => {
 	const card = drawCard();
 	playerPts  = playerPts + cardValue(card);
@@ -71,12 +101,37 @@ btnDraw.addEventListener('click', () => {
 
 	if (playerPts > 21){
 		btnDraw.disabled = true;
+		btnStop.disabled = true;
 		console.warn("Perdiste!")
+		machineTurn(playerPts);
 	} else if (playerPts === 21){
 		btnDraw.disabled = true;
+		btnStop.disabled = true;
 		console.warn("21, genial!!")
+		machineTurn(playerPts);
 	}
 
 
 });
 
+btnStop.addEventListener('click', () => {
+	btnDraw.disabled = true;
+	btnStop.disabled = true;
+	machineTurn(playerPts);
+});
+
+btnNew.addEventListener('click', () => {
+	console.clear();
+	btnDraw.disabled = false;
+	btnStop.disabled = false;
+	playerPts  = 0;
+	machinePts = 0;
+	htmlPts[0].innerText = 0;
+	htmlPts[1].innerText = 0;
+	deck = [];
+	makeDeck();
+
+playerCards.innerHTML = '';
+machineCards.innerHTML = '';
+
+})
